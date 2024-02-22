@@ -15,7 +15,7 @@ const Header = () => {
           className="flex flex-row space-x-3 items-center justify-center"
         >
           <Image src="/Logo.png" width={23} height={23} alt="Logo" />
-          <span className="font-bold text-xl">Чіп Чендж</span>
+          <span className="font-bold text-xl text-[#1F1E25]">Чіп Чендж</span>
         </Link>
 
         <HeaderLinksList />
