@@ -1,5 +1,6 @@
 "use client";
 
+import { LinkNames } from "@/types/LinkNames";
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
 
@@ -7,14 +8,11 @@ export default function NavLink({
   linkName,
   children,
 }: {
-  linkName: string;
+  linkName: LinkNames;
   children: React.ReactNode;
 }) {
   const segment = useSelectedLayoutSegment();
   const isActive = linkName === segment;
-
-  console.log(segment);
-  console.log(linkName);
 
   return (
     <Link

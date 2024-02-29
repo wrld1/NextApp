@@ -1,1 +1,6 @@
-export type LinkNames = "services" | "exchange" | "contacts" | "contact-us";
+export type LinkNames =
+  | "/"
+  | "services"
+  | "exchange"
+  | "contacts"
+  | "contact-us";

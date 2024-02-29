@@ -6,12 +6,13 @@ export default function Hero() {
     <section className="relative overflow-hidden">
       <Image
         src="/Hero.png"
-        alt="Hero image description"
+        alt="Hero image"
         className="absolute inset-0 z-0 h-full w-full object-cover"
         width={1366}
         height={400}
+        priority
       />
-      <div className="relative z-10 px-60 pb-24 pt-20 mx-auto flex justify-between items-center">
+      <div className="relative z-10 px-60 pb-24 pt-20 mx-auto container flex justify-between items-center">
         <div className="flex flex-col gap-6 text-start">
           <h1 className="text-5xl font-bold text-white">Чіп Чендж</h1>
           <p className="text-xl text-gray-300 font-medium">

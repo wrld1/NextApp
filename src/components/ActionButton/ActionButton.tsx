@@ -18,11 +18,11 @@ function ActionButton({
   href = "/",
   onClick,
 }: ButtonProps) {
-  const primaryStyles = "bg-[#2C36F2] text-[#fff] hover:bg-blue-600";
+  const primaryStyles = "bg-[#2C36F2] text-[#fff] hover:bg-blue-600 px-3";
   const secondaryStyles = "bg-[#F6F7FF] text-[#707C87] hover:bg-gray-200";
 
   const getStyles = () => {
-    const baseStyles = "text-center py-5 px-2 rounded font-medium transition";
+    const baseStyles = "text-center py-5 rounded font-medium transition";
     return `${baseStyles} ${
       style === "primary" ? primaryStyles : secondaryStyles
     }`;

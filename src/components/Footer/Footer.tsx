@@ -22,9 +22,7 @@ const Footer = () => {
             <br />Ⓒ ПАТ ЧіпЧендж, 2019-2023
           </address>
         </div>
-
         <FooterLinksList />
-
         <div className="flex gap-4">
           <Smartphone className="stroke-black" />
           <div className="flex flex-col gap-2">

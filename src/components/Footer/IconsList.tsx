@@ -1,19 +1,28 @@
 import { Facebook, Instagram, Twitter, Youtube } from "react-feather";
+import Link from "next/link";
 
 function IconsList() {
   return (
     <ul className="flex gap-4">
       <li>
-        <Facebook className="stroke-black" />
+        <Link href="/">
+          <Facebook className="stroke-black" />
+        </Link>
       </li>
       <li>
-        <Instagram className="stroke-black" />
+        <Link href="/">
+          <Instagram className="stroke-black" />
+        </Link>
       </li>
       <li>
-        <Twitter className="stroke-black" />
+        <Link href="/">
+          <Twitter className="stroke-black" />
+        </Link>
       </li>
       <li>
-        <Youtube className="stroke-black" />
+        <Link href="/">
+          <Youtube className="stroke-black" />
+        </Link>
       </li>
     </ul>
   );
