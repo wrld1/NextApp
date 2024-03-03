@@ -11,13 +11,14 @@
   "dependencies": {
     "next": "14.1.0",
     "react": "^18",
+    "react-datepicker": "^6.2.0",
     "react-dom": "^18",
-    "react-feather": "^2.0.10",
-    "tailwind-datepicker-react": "^1.4.3"
+    "react-feather": "^2.0.10"
   },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
+    "@types/react-datepicker": "^6.0.1",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",

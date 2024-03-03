@@ -22,7 +22,7 @@ function ActionButton({
   const secondaryStyles = "bg-[#F6F7FF] text-[#707C87] hover:bg-gray-200";
 
   const getStyles = () => {
-    const baseStyles = "text-center py-5 rounded font-medium transition";
+    const baseStyles = "text-center py-4 rounded font-medium transition";
     return `${baseStyles} ${
       style === "primary" ? primaryStyles : secondaryStyles
     }`;

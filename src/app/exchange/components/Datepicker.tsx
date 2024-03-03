@@ -1,54 +1,39 @@
 "use client";
 
-import { useState } from "react";
-import Datepicker from "tailwind-datepicker-react";
-import { IOptions } from "tailwind-datepicker-react/types/Options";
+import React, { useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { Calendar } from "react-feather";
 
-const options: IOptions = {
-  autoHide: true,
-  todayBtn: true,
-  clearBtn: true,
-  maxDate: new Date(),
-  minDate: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000),
-  defaultDate: new Date(),
-  inputDateFormatProp: {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  },
-  theme: {
-    background: "",
-    todayBtn: "",
-    clearBtn: "",
-    icons: "",
-    text: "",
-    disabledText: "",
-    input: "",
-    inputIcon: "",
-    selected: "",
-  },
-};
+const Datepicker = () => {
+  const [selectedDate, setSelectedDate] = useState(new Date(Date.now()));
 
-const DatePicker = () => {
-  const [show, setShow] = useState<boolean>(false);
-  const handleChange = (selectedDate: Date) => {
-    console.log(selectedDate);
-  };
-  const handleClose = (state: boolean) => {
-    setShow(state);
+  const today = new Date();
+  const maxDate = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate()
+  );
+
+  const minDate = new Date();
+  minDate.setDate(minDate.getDate() - 7);
+
+  const handleDateChange = (date: Date) => {
+    setSelectedDate(date);
   };
 
   return (
-    <div className="relative w-60">
-      <Datepicker
-        options={options}
-        onChange={handleChange}
-        show={show}
-        setShow={handleClose}
-        classNames="absolute"
-      />
-    </div>
+    <DatePicker
+      selected={selectedDate}
+      showIcon
+      icon={<Calendar className="mt-[2px]" />}
+      onChange={handleDateChange}
+      minDate={minDate}
+      maxDate={maxDate}
+      dateFormat="dd/MM/yyyy"
+      className="w-3/4 rounded-md px-3 text-gray-700 border border-[#C1C2CA] shadow-sm focus:border-[#3a3a3b] focus:ring focus:ring-primary-200 focus:ring-opacity-50 flex items-center"
+    />
   );
 };
 
-export default DatePicker;
+export default Datepicker;
