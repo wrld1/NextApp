@@ -1,37 +1,42 @@
 "use client";
 import { Repeat } from "react-feather";
-
 import CurrencySelect from "./CurrencySelect";
 import InputLabel from "./InputLabel";
 import ActionButton from "@/components/ActionButton";
 import Datepicker from "./Datepicker";
 import { useEffect, useState } from "react";
 import Input from "@/components/Input";
-import { fetchRate } from "@/app/api/fetchRate";
+import { fetchRate } from "@/app/api/actions/fetchRate";
 import { useConverter } from "@/app/_stores/converter.store";
 
 const Converter = () => {
   const availableCurrencies = ["USD", "GBP", "UAH", "CNY"];
   const [sellCurrency, setSellCurrency] = useState("UAH");
   const [buyCurrency, setBuyCurrency] = useState("USD");
-  const [sellAmount, setSellAmount] = useState<number>(0);
-  const [buyAmount, setBuyAmount] = useState<number>(0);
+  const [sellAmount, setSellAmount] = useState<string | number>("");
+  const [buyAmount, setBuyAmount] = useState<string | number>("");
 
-  const { date } = useConverter();
+  const { date, rates, updateRates } = useConverter();
 
-  const getRates = async () => {
-    const rates = await fetchRate(
-      buyCurrency,
-      date.year,
-      date.month,
-      date.day,
-      sellAmount
-    );
-    console.log(rates);
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchRate(
+          sellCurrency,
+          date.year,
+          date.month,
+          date.day
+        );
+        const { conversion_rates } = data;
+        console.log(conversion_rates);
+        updateRates(conversion_rates);
+      } catch (error: any) {
+        throw new Error(error.message);
+      }
+    };
 
-  const rates: any = getRates();
-  console.log(rates);
+    fetchData();
+  }, [sellCurrency, date, updateRates]);
 
   const filteredCurrencies = (selectedCurrency: string): string[] => {
     return availableCurrencies.filter((curr) => curr !== selectedCurrency);
@@ -46,11 +51,13 @@ const Converter = () => {
   };
 
   const handleSellAmountChange = (amount: string) => {
-    setSellAmount(+amount);
+    setSellAmount(amount);
+    setBuyAmount(+amount * rates[buyCurrency]);
   };
 
   const handleBuyAmountChange = (amount: string) => {
-    setBuyAmount(+amount);
+    setBuyAmount(amount);
+    setSellAmount(+amount / rates[buyCurrency]);
   };
 
   return (
@@ -65,7 +72,7 @@ const Converter = () => {
                 inputId="sellInput"
                 placeholder="1000"
                 value={sellAmount}
-                onChange={handleBuyAmountChange}
+                onChange={handleSellAmountChange}
               />
               <CurrencySelect
                 availableCurrencies={filteredCurrencies(buyCurrency)}
@@ -82,7 +89,7 @@ const Converter = () => {
                 inputId="buyInput"
                 placeholder="38.7"
                 value={buyAmount}
-                onChange={handleSellAmountChange}
+                onChange={handleBuyAmountChange}
               />
               <CurrencySelect
                 availableCurrencies={filteredCurrencies(sellCurrency)}

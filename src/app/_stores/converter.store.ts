@@ -8,17 +8,17 @@ interface DateObject {
 }
 
 interface ConverterState {
-  bears: number;
+  rates: Record<string, number>;
+  updateRates: (newRates: Record<string, number>) => void;
   date: DateObject;
-  increase: (by: number) => void;
   setDate: (newDate: DateObject) => void;
 }
 
 export const useConverter = create<ConverterState>()(
   persist(
     (set, get) => ({
-      bears: 0,
-      increase: (by) => set((state) => ({ bears: state.bears + by })),
+      rates: {},
+      updateRates: (newRates) => set(() => ({ rates: newRates })),
       date: {
         year: new Date().getFullYear(),
         month: new Date().getMonth() + 1,

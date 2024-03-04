@@ -26,8 +26,6 @@ const Datepicker = () => {
     });
   };
 
-  console.log(date);
-
   return (
     <input
       type="date"

@@ -12,8 +12,6 @@ function CurrencySelect({
   selectedCurrency,
   onCurrencyChange,
 }: CurrencySelectProps) {
-  console.log(availableCurrencies);
-
   return (
     <div className="custom-select relative w-48 h-[60px] rounded-md cursor-pointer">
       <select
