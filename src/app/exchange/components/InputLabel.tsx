@@ -2,15 +2,16 @@
 
 interface InputLabelProps {
   inputId: string;
+  children: React.ReactNode;
 }
 
-function InputLabel({ inputId }: InputLabelProps) {
+function InputLabel({ inputId, children }: InputLabelProps) {
   return (
     <label
       htmlFor={inputId}
-      className="mb-7 block text-xl  font-medium text-[#707C87]"
+      className="mb-7 block text-xl font-medium text-[#707C87]"
     >
-      В мене є:
+      {children}
     </label>
   );
 }

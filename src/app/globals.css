@@ -26,3 +26,12 @@ html,
 body {
   height: 100%;
 }
+
+.custom-date-icon::-webkit-calendar-picker-indicator {
+  background-image: url("/CalendarIcon.svg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
