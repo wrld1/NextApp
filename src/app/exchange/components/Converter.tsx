@@ -10,30 +10,28 @@ import Input from "@/components/Input";
 import { fetchRate } from "@/app/api/fetchRate";
 import { useConverter } from "@/app/_stores/converter.store";
 
-const INITIAL_CURRENCIES = ["USD", "GBP", "UAH", "CNY"];
-
 const Converter = () => {
-  const [availableCurrencies, setAvailableCurrencies] =
-    useState(INITIAL_CURRENCIES);
+  const availableCurrencies = ["USD", "GBP", "UAH", "CNY"];
   const [sellCurrency, setSellCurrency] = useState("UAH");
   const [buyCurrency, setBuyCurrency] = useState("USD");
-  const [sellAmount, setSellAmount] = useState("");
-  const [buyAmount, setBuyAmount] = useState("");
+  const [sellAmount, setSellAmount] = useState<number>(0);
+  const [buyAmount, setBuyAmount] = useState<number>(0);
 
   const { date } = useConverter();
 
-  // const getRates = async () => {
-  //   const rates = await fetchRate(
-  //     sellCurrency,
-  //     date.year,
-  //     date.month,
-  //     date.day,
-  //     sellAmount
-  //   );
-  //   console.log(rates);
-  // };
+  const getRates = async () => {
+    const rates = await fetchRate(
+      buyCurrency,
+      date.year,
+      date.month,
+      date.day,
+      sellAmount
+    );
+    console.log(rates);
+  };
 
-  // const result = getRates();
+  const rates: any = getRates();
+  console.log(rates);
 
   const filteredCurrencies = (selectedCurrency: string): string[] => {
     return availableCurrencies.filter((curr) => curr !== selectedCurrency);
@@ -48,11 +46,11 @@ const Converter = () => {
   };
 
   const handleSellAmountChange = (amount: string) => {
-    setSellAmount(amount);
+    setSellAmount(+amount);
   };
 
   const handleBuyAmountChange = (amount: string) => {
-    setBuyAmount(amount);
+    setBuyAmount(+amount);
   };
 
   return (

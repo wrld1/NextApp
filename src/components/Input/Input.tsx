@@ -3,7 +3,7 @@
 interface InputProps {
   inputId: string;
   placeholder: string;
-  value: string;
+  value: number;
   onChange: (newValue: string) => void;
 }
 
