@@ -44,20 +44,28 @@ const Converter = () => {
 
   const handleSellCurrencyChange = (newCurrency: string) => {
     setSellCurrency(newCurrency);
+    const newBuyAmount =
+      (+sellAmount * rates[buyCurrency]) / rates[newCurrency];
+    setBuyAmount(isNaN(newBuyAmount) ? "" : newBuyAmount.toFixed(2));
   };
 
   const handleBuyCurrencyChange = (newCurrency: string) => {
     setBuyCurrency(newCurrency);
+    const newBuyAmount =
+      (+sellAmount * rates[sellCurrency]) / rates[newCurrency];
+    setBuyAmount(isNaN(newBuyAmount) ? "" : newBuyAmount.toFixed(2));
   };
 
   const handleSellAmountChange = (amount: string) => {
     setSellAmount(amount);
-    setBuyAmount(+amount * rates[buyCurrency]);
+    const newBuyAmount = (+amount * rates[buyCurrency]) / rates[sellCurrency];
+    setBuyAmount(isNaN(newBuyAmount) ? "" : newBuyAmount.toFixed(2));
   };
 
   const handleBuyAmountChange = (amount: string) => {
     setBuyAmount(amount);
-    setSellAmount(+amount / rates[buyCurrency]);
+    const newSellAmount = (+amount * rates[sellCurrency]) / rates[buyCurrency];
+    setSellAmount(isNaN(newSellAmount) ? "" : newSellAmount.toFixed(2));
   };
 
   return (
