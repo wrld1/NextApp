@@ -18,7 +18,7 @@ export default function Hero() {
           <p className="text-xl text-gray-300 font-medium">
             Обмінник валют - навчальний
           </p>
-          <ActionButton type="link" style="secondary" href="/exchange">
+          <ActionButton variant="link" style="secondary" href="/exchange">
             Конвертер валют
           </ActionButton>
         </div>

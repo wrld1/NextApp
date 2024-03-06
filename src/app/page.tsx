@@ -2,7 +2,7 @@ import ActionButton from "@/components/ActionButton";
 import Hero from "@/components/Hero";
 import Image from "next/image";
 
-export default function Home() {
+export default async function Home() {
   return (
     <>
       <Hero />
@@ -13,7 +13,7 @@ export default function Home() {
             Переважна діяльність банківської групи за останні чотири звітні
             квартали становить 50 і більше відсотків.
           </p>
-          <ActionButton type="link" style="primary" href="/exchange">
+          <ActionButton variant="link" style="primary" href="/exchange">
             Конвертувати валюту
           </ActionButton>
         </div>

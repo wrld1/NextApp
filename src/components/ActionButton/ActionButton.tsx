@@ -4,7 +4,7 @@ import { Url } from "next/dist/shared/lib/router/router";
 import Link from "next/link";
 
 type ButtonProps = {
-  type: "link" | "action";
+  variant: "link" | "action";
   style?: "primary" | "secondary";
   children: React.ReactNode;
   href?: Url;
@@ -12,7 +12,7 @@ type ButtonProps = {
 };
 
 function ActionButton({
-  type,
+  variant,
   style = "primary",
   children,
   href = "/",
@@ -28,13 +28,13 @@ function ActionButton({
     }`;
   };
 
-  if (type === "link") {
+  if (variant === "link") {
     return (
       <Link className={getStyles()} href={href}>
         {children}
       </Link>
     );
-  } else if (type === "action") {
+  } else if (variant === "action") {
     return (
       <button className={getStyles()} onClick={onClick}>
         {children}

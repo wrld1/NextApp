@@ -1,7 +1,7 @@
 "use client";
 
 import { useConverter } from "@/app/_stores/converter.store";
-import React, { useEffect } from "react";
+import React from "react";
 
 const Datepicker = () => {
   const { date, setDate } = useConverter();

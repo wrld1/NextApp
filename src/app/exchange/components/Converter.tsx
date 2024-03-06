@@ -6,7 +6,7 @@ import ActionButton from "@/components/ActionButton";
 import Datepicker from "./Datepicker";
 import { useEffect, useState } from "react";
 import Input from "@/components/Input";
-import { fetchRate } from "@/app/api/actions/fetchRate";
+import { fetchRate } from "@/api/actions/fetchRate";
 import { useConverter } from "@/app/_stores/converter.store";
 
 const Converter = () => {
@@ -14,10 +14,10 @@ const Converter = () => {
   const [initialLoad, setInitialLoad] = useState(true);
   const [sellCurrency, setSellCurrency] = useState("UAH");
   const [buyCurrency, setBuyCurrency] = useState("USD");
-  const [sellAmount, setSellAmount] = useState<string | number>("");
-  const [buyAmount, setBuyAmount] = useState<string | number>("");
+  const [sellValue, setSellValue] = useState<string>("");
+  const [buyValue, setBuyValue] = useState<string>("");
 
-  const { date, rates, updateRates } = useConverter();
+  const { date, rates, updateRates, addExchangeHistory } = useConverter();
 
   useEffect(() => {
     if (initialLoad) {
@@ -48,35 +48,59 @@ const Converter = () => {
   };
 
   const handleSellAmountChange = (amount: string) => {
-    setSellAmount(amount);
+    setSellValue(amount);
     const newBuyAmount = +amount * rates[buyCurrency];
-    setBuyAmount(isNaN(newBuyAmount) ? "" : newBuyAmount.toFixed(2));
+    setBuyValue(isNaN(newBuyAmount) ? "" : newBuyAmount.toFixed(2));
   };
 
   const handleBuyAmountChange = (amount: string) => {
-    setBuyAmount(amount);
+    setBuyValue(amount);
     const newSellAmount = +amount / rates[buyCurrency];
-    setSellAmount(isNaN(newSellAmount) ? "" : newSellAmount.toFixed(2));
+    setSellValue(isNaN(newSellAmount) ? "" : newSellAmount.toFixed(2));
   };
 
   const handleSellCurrencyChange = (newCurrency: string) => {
     setSellCurrency(newCurrency);
-    const newBuyAmount =
-      (+sellAmount * rates[buyCurrency]) / rates[newCurrency];
-    setBuyAmount(isNaN(newBuyAmount) ? "" : newBuyAmount.toFixed(2));
+    const newBuyAmount = (+sellValue * rates[buyCurrency]) / rates[newCurrency];
+    setBuyValue(isNaN(newBuyAmount) ? "" : newBuyAmount.toFixed(2));
   };
 
   const handleBuyCurrencyChange = (newCurrency: string) => {
     setBuyCurrency(newCurrency);
     const newSellAmount =
-      (+buyAmount * rates[sellCurrency]) / rates[newCurrency];
-    setSellAmount(isNaN(newSellAmount) ? "" : newSellAmount.toFixed(2));
+      (+buyValue * rates[sellCurrency]) / rates[newCurrency];
+    setSellValue(isNaN(newSellAmount) ? "" : newSellAmount.toFixed(2));
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const sellAmountNumber = parseFloat(sellValue);
+    const buyAmountNumber = parseFloat(buyValue);
+
+    if (isNaN(sellAmountNumber) || isNaN(buyAmountNumber)) {
+      return console.error("Invalid input amounts");
+    }
+
+    addExchangeHistory(
+      sellAmountNumber,
+      buyAmountNumber,
+      sellCurrency,
+      buyCurrency
+    );
+
+    setSellValue("");
+    setBuyValue("");
+    console.log("handleSubmit worked");
   };
 
   return (
     <>
       <h2 className="font-bold text-[#1F1E25] text-4xl">Конвертер валют</h2>
-      <div className="flex flex-col gap-6 mt-16 justify-between">
+      <form
+        className="flex flex-col gap-6 mt-16 justify-between"
+        onSubmit={handleSubmit}
+      >
         <div className="flex justify-between items-end">
           <div>
             <InputLabel inputId="sellInput">В мене є</InputLabel>
@@ -84,7 +108,7 @@ const Converter = () => {
               <Input
                 inputId="sellInput"
                 placeholder="1000"
-                value={sellAmount}
+                value={sellValue}
                 onChange={handleSellAmountChange}
               />
               <CurrencySelect
@@ -101,7 +125,7 @@ const Converter = () => {
               <Input
                 inputId="buyInput"
                 placeholder="38.7"
-                value={buyAmount}
+                value={buyValue}
                 onChange={handleBuyAmountChange}
               />
               <CurrencySelect
@@ -114,11 +138,11 @@ const Converter = () => {
         </div>
         <div className="flex justify-between items-center">
           <Datepicker />
-          <ActionButton style="primary" type="action">
+          <ActionButton style="primary" variant="action">
             Зберегти результат
           </ActionButton>
         </div>
-      </div>
+      </form>
     </>
   );
 };

@@ -1,3 +1,5 @@
+"use server";
+
 export async function fetchRate(
   baseCurrency: string,
   year: number,

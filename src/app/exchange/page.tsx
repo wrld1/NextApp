@@ -2,7 +2,7 @@ import Hero from "@/components/Hero";
 import Converter from "./components/Converter";
 import HistoryList from "./components/HistoryList";
 
-export default function ExchangePage() {
+export default async function ExchangePage() {
   return (
     <>
       <Hero />
