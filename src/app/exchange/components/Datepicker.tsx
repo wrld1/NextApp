@@ -1,7 +1,7 @@
 "use client";
 
 import { useConverter } from "@/app/_stores/converter.store";
-import React from "react";
+import React, { useEffect } from "react";
 
 const Datepicker = () => {
   const { date, setDate } = useConverter();
@@ -13,16 +13,26 @@ const Datepicker = () => {
     .toISOString()
     .split("T")[0];
 
-  const formattedDate = new Date(date.year, date.month - 1, date.day)
+  const formattedDate = new Date(Date.UTC(date.year, date.month - 1, date.day))
     .toISOString()
     .split("T")[0];
 
   const handleChangeDate = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const date = new Date(e.target.value);
+    const selectedDate = new Date(e.target.value);
+    const utcDate = new Date(
+      Date.UTC(
+        selectedDate.getFullYear(),
+        selectedDate.getMonth(),
+        selectedDate.getDate()
+      )
+    )
+      .toISOString()
+      .split("T")[0];
+
     setDate({
-      year: date.getFullYear(),
-      month: date.getMonth() + 1,
-      day: date.getDate(),
+      year: parseInt(utcDate.slice(0, 4)),
+      month: parseInt(utcDate.slice(5, 7)),
+      day: parseInt(utcDate.slice(8, 10)),
     });
   };
 

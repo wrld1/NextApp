@@ -11,6 +11,7 @@ import { useConverter } from "@/app/_stores/converter.store";
 
 const Converter = () => {
   const availableCurrencies = ["USD", "GBP", "UAH", "CNY"];
+  const [initialLoad, setInitialLoad] = useState(true);
   const [sellCurrency, setSellCurrency] = useState("UAH");
   const [buyCurrency, setBuyCurrency] = useState("USD");
   const [sellAmount, setSellAmount] = useState<string | number>("");
@@ -19,6 +20,11 @@ const Converter = () => {
   const { date, rates, updateRates } = useConverter();
 
   useEffect(() => {
+    if (initialLoad) {
+      setInitialLoad(false);
+      return;
+    }
+
     const fetchData = async () => {
       try {
         const data = await fetchRate(
@@ -28,18 +34,29 @@ const Converter = () => {
           date.day
         );
         const { conversion_rates } = data;
-        console.log(conversion_rates);
         updateRates(conversion_rates);
       } catch (error: any) {
-        throw new Error(error.message);
+        throw new Error(error);
       }
     };
 
     fetchData();
-  }, [sellCurrency, date, updateRates]);
+  }, [sellCurrency, date, updateRates, initialLoad]);
 
   const filteredCurrencies = (selectedCurrency: string): string[] => {
     return availableCurrencies.filter((curr) => curr !== selectedCurrency);
+  };
+
+  const handleSellAmountChange = (amount: string) => {
+    setSellAmount(amount);
+    const newBuyAmount = +amount * rates[buyCurrency];
+    setBuyAmount(isNaN(newBuyAmount) ? "" : newBuyAmount.toFixed(2));
+  };
+
+  const handleBuyAmountChange = (amount: string) => {
+    setBuyAmount(amount);
+    const newSellAmount = +amount / rates[buyCurrency];
+    setSellAmount(isNaN(newSellAmount) ? "" : newSellAmount.toFixed(2));
   };
 
   const handleSellCurrencyChange = (newCurrency: string) => {
@@ -51,20 +68,8 @@ const Converter = () => {
 
   const handleBuyCurrencyChange = (newCurrency: string) => {
     setBuyCurrency(newCurrency);
-    const newBuyAmount =
-      (+sellAmount * rates[sellCurrency]) / rates[newCurrency];
-    setBuyAmount(isNaN(newBuyAmount) ? "" : newBuyAmount.toFixed(2));
-  };
-
-  const handleSellAmountChange = (amount: string) => {
-    setSellAmount(amount);
-    const newBuyAmount = (+amount * rates[buyCurrency]) / rates[sellCurrency];
-    setBuyAmount(isNaN(newBuyAmount) ? "" : newBuyAmount.toFixed(2));
-  };
-
-  const handleBuyAmountChange = (amount: string) => {
-    setBuyAmount(amount);
-    const newSellAmount = (+amount * rates[sellCurrency]) / rates[buyCurrency];
+    const newSellAmount =
+      (+buyAmount * rates[sellCurrency]) / rates[newCurrency];
     setSellAmount(isNaN(newSellAmount) ? "" : newSellAmount.toFixed(2));
   };
 
