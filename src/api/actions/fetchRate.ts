@@ -6,7 +6,7 @@ export async function fetchRate(
   month: number,
   day: number
 ) {
-  const url = `https://v6.exchangerate-api.com/v6/f7f76e28d6eee79f65a85963/history/${baseCurrency}/${year}/${month}/${day}`;
+  const url = `https://v6.exchangerate-api.com/v6/85fe65516f572d42332539c6/history/${baseCurrency}/${year}/${month}/${day}`;
 
   try {
     const response = await fetch(url);
